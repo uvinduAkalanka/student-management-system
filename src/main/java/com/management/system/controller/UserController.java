@@ -25,7 +25,6 @@ public class UserController {
     @GetMapping("/{email}")
     public User FetchUserByEmail(@PathVariable String email) {
         return userService.fetchUserByEmail(email);
-
     }
 
     @GetMapping("all-students")
