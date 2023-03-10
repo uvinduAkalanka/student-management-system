@@ -1,15 +1,20 @@
 package com.management.system.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import lombok.*;
+import org.springframework.data.annotation.Id;
 import org.springframework.lang.NonNull;
 
-import javax.persistence.*;
 
-@Entity
-@Table(name = "users")
+import javax.persistence.*;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_generator")
@@ -37,4 +42,11 @@ public class User {
     private String yearOfStudy;
     @Column(name = "current_status")
     private String currentStatus;
+    @OneToMany(targetEntity = Records.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "UserRecord_FK",referencedColumnName = "moduleCode",updatable = false )
+    @JsonBackReference
+    private List<Records> records;
 }
+
+
+

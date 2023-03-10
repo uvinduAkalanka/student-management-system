@@ -13,12 +13,10 @@ import java.util.List;
 @RequestMapping("/api/v1/user")
 public class UserController {
 
-    //    private final UserRepository userRepository;
-
     @Autowired
     private UserService userService;
 
-    @PostMapping("/signing/{email}/{password}")
+    @PostMapping("/signing")
     public SigningResponse signing(@RequestBody SigningRequest userCredentials) {
         User user = userService.login(userCredentials.getEmail(), userCredentials.getPassword());
         return new SigningResponse(user.getUserName(), user.getRole());
