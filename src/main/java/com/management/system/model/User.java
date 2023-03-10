@@ -3,9 +3,7 @@ package com.management.system.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.*;
-import org.springframework.data.annotation.Id;
 import org.springframework.lang.NonNull;
-
 
 import javax.persistence.*;
 import java.util.List;
@@ -42,10 +40,13 @@ public class User {
     private String yearOfStudy;
     @Column(name = "current_status")
     private String currentStatus;
-    @OneToMany(targetEntity = Records.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "UserRecord_FK",referencedColumnName = "moduleCode",updatable = false )
-    @JsonBackReference
-    private List<Records> records;
+//    @OneToMany(targetEntity = Records.class, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "UserRecord_FK",referencedColumnName = "moduleCode",updatable = false )
+//    @JsonBackReference
+//    private List<Records> records;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Records> records ;
 }
 
 
