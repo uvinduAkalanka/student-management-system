@@ -1,5 +1,6 @@
 package com.management.system.service;
 
+import com.management.system.model.DTO.StudentSaveRequest;
 import com.management.system.model.User;
 
 import java.util.List;
@@ -10,6 +11,10 @@ public interface UserService {
     User fetchUserByEmail(String userName);
 
     List<User> getAllStudent();
+
+    User addStudent(StudentSaveRequest student);
+
+    String deleteStudent(int id);
 
 
 }

@@ -1,14 +1,16 @@
 package com.management.system.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Data
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -20,7 +22,7 @@ public class User {
     private Integer id;
     @NonNull
     @Column(name = "role")
-    private String role;
+    private String role ;
     @Column(name = "student_name")
     private String name;
     @Column(name = "user_name")
@@ -40,13 +42,15 @@ public class User {
     private String yearOfStudy;
     @Column(name = "current_status")
     private String currentStatus;
-//    @OneToMany(targetEntity = Records.class, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<StudentRecords> records;
+
+    //    @OneToMany(targetEntity = Records.class, cascade = CascadeType.ALL)
 //    @JoinColumn(name = "UserRecord_FK",referencedColumnName = "moduleCode",updatable = false )
 //    @JsonBackReference
 //    private List<Records> records;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Records> records ;
+
 }
 
 
