@@ -5,14 +5,16 @@ import com.management.system.model.DTO.StudentSaveRequest;
 import com.management.system.model.StudentRecords;
 import com.management.system.model.User;
 import com.management.system.service.StudentRecordsService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@Slf4j
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api/v1/student-records")
 public class StudentRecordsController {
 
@@ -35,7 +37,8 @@ public class StudentRecordsController {
     }
 
     @PostMapping("/{userEmail}")
-    public ResponseEntity<StudentRecords> saveRecord(@PathVariable String userEmail,@RequestBody StudentRecordSaveRequest record) {
-        return new ResponseEntity<>(studentRecordsService.addRecord(record,userEmail), HttpStatus.CREATED);
+    public ResponseEntity<StudentRecords> saveRecord(@PathVariable String userEmail, @RequestBody StudentRecordSaveRequest record) {
+        log.info("initiate the saving process");
+        return new ResponseEntity<>(studentRecordsService.addRecord(record, userEmail), HttpStatus.CREATED);
     }
 }
