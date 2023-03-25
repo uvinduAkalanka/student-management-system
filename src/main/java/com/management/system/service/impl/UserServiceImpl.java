@@ -47,6 +47,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User addStudent(StudentSaveRequest student) {
+        if (userRepository.findByUserName(student.getUserName()).isPresent()) {
+            throw new RuntimeException("User with this username already exists!");
+        }
         User newStudent = new User();
         newStudent.setRole(student.getRole());
         newStudent.setName(student.getName());
