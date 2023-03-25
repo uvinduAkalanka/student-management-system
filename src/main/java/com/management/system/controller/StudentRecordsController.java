@@ -1,9 +1,9 @@
 package com.management.system.controller;
 
 import com.management.system.model.DTO.StudentRecordSaveRequest;
-import com.management.system.model.DTO.StudentSaveRequest;
+import com.management.system.model.DTO.StudentRecordUpdateRequest;
+import com.management.system.model.DTO.StudentRecordUpdateResponse;
 import com.management.system.model.StudentRecords;
-import com.management.system.model.User;
 import com.management.system.service.StudentRecordsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +26,15 @@ public class StudentRecordsController {
         return studentRecordsService.getAllRecordsForOneStudent(userEmail);
     }
 
-    @PutMapping("/{recordId}/{marks}")
-    public StudentRecords updateStudentRecord(@PathVariable int recordId, @PathVariable String marks) {
-        return studentRecordsService.updateStudentRecord(recordId, marks);
+    @PutMapping("/{recordId}")
+    public ResponseEntity<StudentRecordUpdateResponse> updateStudentRecord(@PathVariable int recordId, @RequestBody StudentRecordUpdateRequest studentRecordUpdateRequest) {
+        StudentRecords recordToUpdate = studentRecordsService.updateStudentRecord(recordId, studentRecordUpdateRequest);
+        StudentRecordUpdateResponse studentRecordUpdateResponse = new StudentRecordUpdateResponse();
+        studentRecordUpdateResponse.setModuleCode(recordToUpdate.getModuleCode());
+        studentRecordUpdateResponse.setModuleName(recordToUpdate.getModuleName());
+        studentRecordUpdateResponse.setMarks(recordToUpdate.getMarks());
+        studentRecordUpdateResponse.setId(recordToUpdate.getId());
+        return new ResponseEntity<>(studentRecordUpdateResponse, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{recordId}")

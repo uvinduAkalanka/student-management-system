@@ -1,20 +1,22 @@
 package com.management.system.service.impl;
 
 import com.management.system.model.DTO.StudentRecordSaveRequest;
+import com.management.system.model.DTO.StudentRecordUpdateRequest;
 import com.management.system.model.StudentRecords;
 import com.management.system.model.User;
 import com.management.system.repository.StudentRecordsRepository;
 import com.management.system.service.StudentRecordsService;
 import com.management.system.service.UserService;
-import org.springframework.beans.BeanUtils;
+import com.management.system.utils.Records;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
- public class StudentRecordsServiceImpl implements StudentRecordsService {
+public class StudentRecordsServiceImpl implements StudentRecordsService {
     @Autowired
     private StudentRecordsRepository studentRecordsRepository;
     @Autowired
@@ -35,9 +37,11 @@ import java.util.Optional;
     }
 
     @Override
-    public StudentRecords updateStudentRecord(int id,String marks) {
+    public StudentRecords updateStudentRecord(int id, StudentRecordUpdateRequest marksUpdateDetails) {
         StudentRecords existingRecord = getStudentRecordByID(id);
-        existingRecord.setMarks(marks);
+        existingRecord.setMarks(marksUpdateDetails.getMarks());
+        existingRecord.setModuleName(marksUpdateDetails.getModuleName());
+        existingRecord.setModuleCode(marksUpdateDetails.getModuleCode());
         return studentRecordsRepository.save(existingRecord);
 
     }
@@ -53,7 +57,7 @@ import java.util.Optional;
     }
 
     @Override
-    public StudentRecords addRecord(StudentRecordSaveRequest record,String userEmail) {
+    public StudentRecords addRecord(StudentRecordSaveRequest record, String userEmail) {
         StudentRecords newRecord = new StudentRecords();
         newRecord.setModuleCode(record.getModuleCode());
         newRecord.setModuleName(record.getModuleName());
@@ -61,5 +65,21 @@ import java.util.Optional;
         newRecord.setUser(record.getUser());
         newRecord.setUser(userService.fetchUserByEmail(userEmail));
         return studentRecordsRepository.save(newRecord);
+    }
+
+    @Override
+    public List<StudentRecords> addMultipleRecord(User user) {
+
+        List<StudentRecords> saveMultipleRecords = Records.defaultRecordValues(user)
+                .stream()
+                .map(record -> new StudentRecords(null,
+                        record.getModuleCode(),
+                        record.getModuleName(),
+                        record.getMarks(),
+                        record.getUser()))
+                .collect(Collectors.toList());
+
+        return studentRecordsRepository.saveAll(saveMultipleRecords);
+
     }
 }

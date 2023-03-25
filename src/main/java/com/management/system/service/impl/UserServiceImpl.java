@@ -1,11 +1,11 @@
 package com.management.system.service.impl;
 
 import com.management.system.model.DTO.StudentSaveRequest;
-import com.management.system.model.StudentRecords;
+import com.management.system.model.DTO.StudentUpdateRequest;
 import com.management.system.model.User;
 import com.management.system.repository.UserRepository;
 import com.management.system.service.UserService;
-import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,11 +15,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private final UserRepository userRepository;
-
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public User fetchUserByEmail(String userName) {
@@ -43,7 +40,7 @@ public class UserServiceImpl implements UserService {
         return userRepository
                 .findAll()
                 .stream()
-                .filter(user-> Objects.equals(user.getRole(),"student"))
+                .filter(user -> Objects.equals(user.getRole(), "student"))
                 .collect(Collectors.toList());
 
     }
@@ -59,7 +56,8 @@ public class UserServiceImpl implements UserService {
         newStudent.setDob(student.getDob());
         newStudent.setSchool(student.getSchool());
         newStudent.setProgram(student.getProgram());
-        return userRepository.save(newStudent);
+        userRepository.save(newStudent);
+        return newStudent;
     }
 
     @Override
@@ -70,5 +68,26 @@ public class UserServiceImpl implements UserService {
             return "successful";
         }
         return "Record not found";
+    }
+
+    @Override
+    public User updateStudent(String studentEmail, StudentUpdateRequest updateStudent) {
+
+        if (!Objects.equals(studentEmail, updateStudent.getUserName()) && (getAllStudent().stream().anyMatch(existingStudent ->
+                existingStudent.getUserName().equals(updateStudent.getUserName())))) {
+            throw new IllegalStateException("Student with email " + studentEmail + " already exists.");
+        }
+
+        User updateUserForDatabase = fetchUserByEmail(studentEmail);
+
+        updateUserForDatabase.setRole(updateStudent.getRole());
+        updateUserForDatabase.setName(updateStudent.getName());
+        updateUserForDatabase.setUserName(updateStudent.getUserName());
+        updateUserForDatabase.setSex(updateStudent.getSex());
+        updateUserForDatabase.setDob(updateStudent.getDob());
+        updateUserForDatabase.setSchool(updateStudent.getSchool());
+        updateUserForDatabase.setProgram(updateStudent.getProgram());
+        return userRepository.save(updateUserForDatabase);
+
     }
 }
