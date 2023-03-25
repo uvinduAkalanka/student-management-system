@@ -59,6 +59,8 @@ public class UserServiceImpl implements UserService {
         newStudent.setDob(student.getDob());
         newStudent.setSchool(student.getSchool());
         newStudent.setProgram(student.getProgram());
+        newStudent.setYearOfStudy(student.getYearOfStudy());
+        newStudent.setCurrentStatus(student.getCurrentStatus());
         userRepository.save(newStudent);
         return newStudent;
     }

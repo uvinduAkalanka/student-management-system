@@ -55,6 +55,8 @@ public class UserController {
         studentSaveResponse.setDob(addedNewStudent.getDob());
         studentSaveResponse.setSchool(addedNewStudent.getSchool());
         studentSaveResponse.setProgram(addedNewStudent.getProgram());
+        studentSaveResponse.setYearOfStudy(addedNewStudent.getYearOfStudy());
+        studentSaveResponse.setCurrentStatus(addedNewStudent.getCurrentStatus());
         studentSaveResponse.setStudentRecordSaveRequest(defaultRecords);
 
         return new ResponseEntity<>(studentSaveResponse, HttpStatus.CREATED);
