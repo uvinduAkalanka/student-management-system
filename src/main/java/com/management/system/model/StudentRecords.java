@@ -29,8 +29,4 @@ public class StudentRecords {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonIgnore
     private User user;
-
-//    public StudentRecords(String moduleCode, String moduleName, String marks, User user) {
-
-//    }
 }

@@ -6,15 +6,17 @@ import com.management.system.model.StudentRecords;
 import com.management.system.model.User;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface StudentRecordsService {
     List<StudentRecords> getAllRecordsForOneStudent(String email);
+
     StudentRecords getStudentRecordByID(int id);
+
     StudentRecords updateStudentRecord(int id, StudentRecordUpdateRequest marksUpdateDetails);
+
     String deleteRecord(int id);
-    StudentRecords addRecord(StudentRecordSaveRequest newRecord,String userEmail);
+
+    StudentRecords addRecord(StudentRecordSaveRequest newRecord, String userEmail);
+
     List<StudentRecords> addMultipleRecord(User user);
-
-
 }

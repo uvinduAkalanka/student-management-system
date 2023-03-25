@@ -93,6 +93,5 @@ public class UserServiceImpl implements UserService {
         updateUserForDatabase.setSchool(updateStudent.getSchool());
         updateUserForDatabase.setProgram(updateStudent.getProgram());
         return userRepository.save(updateUserForDatabase);
-
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @Slf4j
 @RestController
 @CrossOrigin("*")
@@ -24,6 +25,11 @@ public class StudentRecordsController {
     @GetMapping("/{userEmail}")
     public List<StudentRecords> getAllRecordsForPerStudent(@PathVariable String userEmail) {
         return studentRecordsService.getAllRecordsForOneStudent(userEmail);
+    }
+
+    @GetMapping("/by-id/{recordID}")
+    public StudentRecords getRecordByID(@PathVariable Integer recordID) {
+        return studentRecordsService.getStudentRecordByID(recordID);
     }
 
     @PutMapping("/{recordId}")

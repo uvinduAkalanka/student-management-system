@@ -44,13 +44,6 @@ public class User {
     private String currentStatus;
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<StudentRecords> records;
-
-    //    @OneToMany(targetEntity = Records.class, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "UserRecord_FK",referencedColumnName = "moduleCode",updatable = false )
-//    @JsonBackReference
-//    private List<Records> records;
-
-
 }
 
 

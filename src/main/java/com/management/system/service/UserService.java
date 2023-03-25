@@ -1,7 +1,6 @@
 package com.management.system.service;
 
 import com.management.system.model.DTO.StudentSaveRequest;
-import com.management.system.model.DTO.StudentSaveResponse;
 import com.management.system.model.DTO.StudentUpdateRequest;
 import com.management.system.model.User;
 
@@ -17,6 +16,6 @@ public interface UserService {
     User addStudent(StudentSaveRequest student);
 
     String deleteStudent(int id);
-    User updateStudent(String email, StudentUpdateRequest updateRequest);
 
+    User updateStudent(String email, StudentUpdateRequest updateRequest);
 }
